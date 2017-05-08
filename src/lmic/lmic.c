@@ -652,7 +652,11 @@ static void updateTx (ostime_t txbeg) {
 #ifdef LMIC_IGNORE_DUTY_CYCLE
     band->avail = txbeg + airtime;
 #else
+#ifdef LMIC_FACTOR_DUTY_CYCLE
     band->avail = txbeg + airtime * (band->txcap/LMIC_FACTOR_DUTY_CYCLE);
+#else
+    band->avail = txbeg + airtime * band->txcap;
+#endif
 #endif
     if( LMIC.globalDutyRate != 0 )
         LMIC.globalDutyAvail = txbeg + (airtime<<LMIC.globalDutyRate);
