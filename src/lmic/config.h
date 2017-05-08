@@ -87,6 +87,6 @@
 //#define LMIC_IGNORE_DUTY_CYCLE
 
 // Increase the duty cycle allowance by the specified factor.
-#define LMIC_FACTOR_DUTY_CYCLE 4
+//#define LMIC_FACTOR_DUTY_CYCLE 4
 
 #endif // _lmic_config_h_
