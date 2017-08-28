@@ -650,9 +650,11 @@ static void updateTx (ostime_t txbeg) {
     LMIC.freq  = freq & ~(u4_t)3;
     LMIC.txpow = band->txpow;
 #ifdef LMIC_IGNORE_DUTY_CYCLE
+    #warning "LMIC_IGNORE_DUTY_CYCLE: the duty cycle limitation will be completely ignored."
     band->avail = txbeg + airtime;
 #else
 #ifdef LMIC_FACTOR_DUTY_CYCLE
+    #warning "LMIC_FACTOR_DUTY_CYCLE: the duty cycle limitation will be divided by the specified factor (only for testing)."
     band->avail = txbeg + airtime * (band->txcap/LMIC_FACTOR_DUTY_CYCLE);
 #else
     band->avail = txbeg + airtime * band->txcap;

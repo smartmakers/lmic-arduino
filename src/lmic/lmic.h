@@ -44,7 +44,12 @@ extern "C"{
 #define LMIC_VERSION_BUILD 1468577746
 
 enum { MAX_FRAME_LEN      =  64 };   //!< Library cap on max frame length
+#ifdef LMIC_SINGLE_ATTEMPT
+#warning "LMIC_SINGLE_ATTEMPT: no retransmission will attempted when a confirmed uplink is not acknowledged (this is useful fo testing as the frame counter is then eqivalent to the number of radio transmissions)."
+enum { TXCONF_ATTEMPTS    =   1 };   //!< Transmit attempts for confirmed frames
+#else
 enum { TXCONF_ATTEMPTS    =   8 };   //!< Transmit attempts for confirmed frames
+#endif
 enum { MAX_MISSED_BCNS    =  20 };   // threshold for triggering rejoin requests
 enum { MAX_RXSYMS         = 100 };   // stop tracking beacon beyond this
 
