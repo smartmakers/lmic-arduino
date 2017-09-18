@@ -649,15 +649,14 @@ static void updateTx (ostime_t txbeg) {
     xref2band_t band = &LMIC.bands[freq & 0x3];
     LMIC.freq  = freq & ~(u4_t)3;
     LMIC.txpow = band->txpow;
-#ifdef LMIC_IGNORE_DUTY_CYCLE
+#if defined (LMIC_IGNORE_DUTY_CYCLE)
     #warning "LMIC_IGNORE_DUTY_CYCLE: the duty cycle limitation will be completely ignored"
     band->avail = txbeg + airtime;
-#elif LMIC_FACTOR_DUTY_CYCLE
+#elif defined(LMIC_FACTOR_DUTY_CYCLE)
     #warning "LMIC_FACTOR_DUTY_CYCLE: the duty cycle limitation will be divided by the specified factor"
     band->avail = txbeg + airtime * (band->txcap/LMIC_FACTOR_DUTY_CYCLE);
 #else
     band->avail = txbeg + airtime * band->txcap;
-#endif
 #endif
     if( LMIC.globalDutyRate != 0 )
         LMIC.globalDutyAvail = txbeg + (airtime<<LMIC.globalDutyRate);
@@ -706,7 +705,7 @@ static void setBcnRxParams (void) {
 static void initJoinLoop (void) {
     LMIC.txChnl = os_getRndU1() % 3;
     LMIC.adrTxPow = 14;
-#ifdef LMIC_FAST_JOIN
+#if defined(LMIC_FAST_JOIN)
     #warning "LMIC_FAST_JOIN: the join procedure will start at SF12"
     setDrJoin(DRCHG_SET, DR_SF12);
 #else
